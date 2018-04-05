@@ -1,0 +1,28 @@
+.body{
+  font-family: -apple-system, BlinkMacSystemFont, Segoe, Roboto, Oxygen-Sans
+  Ubuntu, Helvetica;
+}
+
+.container{
+  max-resolution: 1200px;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.languages {
+  display: flex;
+  justify-content: center;
+}
+
+.languages li{
+  margin: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
