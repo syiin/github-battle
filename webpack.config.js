@@ -10,7 +10,10 @@ module.exports = {
     //path is just a set of pathing utilities
     path: path.resolve(__dirname, 'dist'),
     //it's going to output to a file called index_bundle
-    filename: 'index_bundle.js'
+    filename: 'index_bundle.js',
+    //setting this plus devServer.historyApiFallback always loads
+    // '/' which is where React Router is 
+    publicPath: '/'
   },
   //the loaders
   module: {
@@ -27,6 +30,9 @@ module.exports = {
         { test: /\.css$/, use: ['style-loader', 'css-loader' ]}
 
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [new HtmlWebpackPlugin({
     template: 'app/index.html'
