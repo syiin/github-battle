@@ -1,37 +1,6 @@
 var React = require('react');
 var PropTypes = require('prop-types');
-var Link = require('react-router-dom').Link;
 
-function PlayerPreview (props) {
-  return (
-    <div>
-      <div className='column'>
-        {/* Render a user avatar image */}
-        <img
-          className='avatar'
-          src={props.avatar}
-          alt={'Avatar for' + props.username}
-        />
-        {/* Render a username  */}
-        <h2 className='username'>@{props.username}</h2>
-      </div>
-      {/* Call the onReset function from the Battle parent component via props and pass in
-      the id (eg. playerONe) */}
-      <button
-        className='reset'
-        onClick={props.onReset.bind(null, props.id)}>
-        Reset
-      </button>
-    </div>
-  )
-}
-
-PlayerPreview.propTypes = {
-  avatar: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  onReset: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
-}
 
 class PlayerInput extends React.Component{
   constructor(props){
@@ -114,7 +83,6 @@ class Battle extends React.Component{
     }
     //set the context of handleFormSubmit to always be the Battle component
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
   }
 
   //create a function to update the state of Battle based on PlayerInput
@@ -130,25 +98,10 @@ class Battle extends React.Component{
     )
   }
 
-  handleReset(id){
-    this.setState(
-      function(){
-        var newState = {}
-        //bracket notation will change player object in state
-        newState[id + 'Name'] = '';
-        newState[id + 'Image'] = null;
-        return newState
-    })
-  }
-
   render(){
-    //access the match property
-    var match = this.props.match;
     //create a var that will hold the value of the current state
     var playerOneName = this.state.playerOneName;
     var playerTwoName = this.state.playerTwoName;
-    var playerOneImage = this.state.playerOneImage;
-    var playerTwoImage  = this.state.playerTwoImage;
 
     return (
       <div>
@@ -161,15 +114,6 @@ class Battle extends React.Component{
             label='Player One'
             onSubmit={this.handleFormSubmit}
           />}
-          {/* If player one's image is not null, render player view passing in data
-          of playerOne from state. */}
-          {playerOneImage !== null &&
-            <PlayerPreview
-              avatar = {playerOneImage}
-              username = {playerOneName}
-              onReset = {this.handleReset}
-              id='playerOne'
-            />}
 
           {!playerTwoName &&
           <PlayerInput
@@ -177,27 +121,7 @@ class Battle extends React.Component{
             label='Player Two'
             onSubmit={this.handleFormSubmit}
           />}
-
-          {playerTwoImage !== null &&
-            <PlayerPreview
-              avatar = {playerTwoImage}
-              username = {playerTwoName}
-              onReset = {this.handleReset}
-              id='playerTwo'
-            />}
         </div>
-        {/* If playerOne and playerTwo have images, then render the link component which
-        gets the request url (via match.url) and appends results to to it. Then pass
-        it the playerone and player two names in the URL  */}
-        {playerOneImage && playerTwoImage &&
-          <Link
-            className='button'
-            to={{
-              pathname: match.url + '/results',
-              search: '?playerOneName=' + playerOneName + '&playerTwoName=' + playerTwoName
-            }}>
-            Battle
-          </Link>}
       </div>
     )
   }
